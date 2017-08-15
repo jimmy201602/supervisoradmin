@@ -3,7 +3,7 @@ import ConfigParser
 from datetime import datetime, timedelta
 from django.http import JsonResponse
 
-CONFIG_FILE = "/etc/cesi.conf"
+CONFIG_FILE = "cesi.conf"
 class Config:
     
     def __init__(self, CFILE):

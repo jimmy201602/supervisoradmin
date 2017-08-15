@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-
+{% load staticfiles %} 
 <head>
 
     <meta charset="utf-8">
@@ -9,20 +9,20 @@
     <title>cesi</title>
 
     <!-- Core CSS - Include with every page -->
-    <link rel=stylesheet type=text/css  href="{{ url_for('static', filename = 'css/bootstrap.min.css') }}" rel="stylesheet">
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename = 'font-awesome/css/font-awesome.css') }}" rel="stylesheet">
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='js/ui/jquery-ui-1.11.0.custom/jquery-ui.min.css') }}">
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='js/ui/jquery-ui-1.11.0.custom/jquery-ui.css') }}">
+    <link rel=stylesheet type=text/css  href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel=stylesheet type=text/css href="{% static 'font-awesome/css/font-awesome.css' %}" rel="stylesheet">
+    <link rel=stylesheet type=text/css href="{% static 'js/ui/jquery-ui-1.11.0.custom/jquery-ui.min.css' %}">
+    <link rel=stylesheet type=text/css href="{% static 'js/ui/jquery-ui-1.11.0.custom/jquery-ui.css' %}">
 
     <!-- Page-Level Plugin CSS - Dashboard -->
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename = 'css/plugins/morris/morris-0.4.3.min.css') }}" rel="stylesheet">
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename = 'css/plugins/timeline/timeline.css') }}" rel="stylesheet">
+    <link rel=stylesheet type=text/css href="{% static 'css/plugins/morris/morris-0.4.3.min.css' %}" rel="stylesheet">
+    <link rel=stylesheet type=text/css href="{% static 'css/plugins/timeline/timeline.css' %}" rel="stylesheet">
 
     <!-- SB Admin CSS - Include with every page -->
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename = 'css/sb-admin.css') }}" rel="stylesheet">
+    <link rel=stylesheet type=text/css href="{% static 'css/sb-admin.css' %}" rel="stylesheet">
 
     <!-- Table links -->
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='custom.css') }}">
+    <link rel=stylesheet type=text/css href="{% static 'custom.css' %}">
 </head>
 
 <body>
@@ -37,7 +37,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <div class="logo"><img src="{{ url_for('static', filename='cesi.png' ) }}" width="80" height="80"/></div>
+                <div class="logo"><img src="{% static 'cesi.png' %}" width="80" height="80"/></div>
             </div>
             <!-- /.navbar-header -->
 
@@ -99,9 +99,9 @@
                             <a><i class="glyphicon glyphicon-th-large"></i> Environments<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <!--Environment names-->
-                            {% for memberlist in environment_list %}
+                            {% for memberlist in environment_name_list %}
                                 <li>
-                                   <a><i class="glyphicon glyphicon-tag"></i> {{ environment_name_list[ loop.index-1 ] }}<span class="fa arrow"></span></a>
+                                   <a><i class="glyphicon glyphicon-tag"></i> {{ memberlist }}<span class="fa arrow"></span></a>
                                    <ul class="nav nav-third-level">
                                     <!--Environment's node names-->
                                     {% for member in memberlist %}
@@ -121,18 +121,18 @@
                         <li>
                             <a href="#" class="groups"><i class="glyphicon glyphicon-th"></i> Groups <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                            {% for index in range(group_list|length) %}
+                            {#% for index in range(group_list|length) %#}
                                 <li>
-                                    <a><i class="glyphicon glyphicon-paperclip"></i> {{ group_list[index] }} <span class="fa arrow"> </a>
+                                    <a><i class="glyphicon glyphicon-paperclip"></i> {#{ group_list[index] }#} <span class="fa arrow"> </a>
                                         <ul class="nav nav-third-level">
-                                        {% for env_name in g_environment_list[index] %}
+                                        {#% for env_name in g_environment_list[index] %#}
                                             <li class="ajax3" usertype="{{usertypecode}}">
-                                                <a><input type="checkbox" group="{{ group_list[index] }}" env="{{ env_name }}"  disabled="true"> {{ env_name }} </a>
+                                                <a><input type="checkbox" group="{#{ group_list[index] }#}" env="{{ env_name }}"  disabled="true"> {{ env_name }} </a>
                                             </li>
-                                        {% endfor %}
+                                        {#% endfor %#}
                                         </ul>
                                 </li>
-                            {% endfor %}
+                            {#% endfor %#}
                             </ul>
                         </li>
                     </ul>
@@ -203,24 +203,24 @@
     <!-- /#wrapper -->
         <div id="dialog">
         </div>
-    <script language="JavaScript" type="text/javascript" src="{{ url_for('static', filename='jquery.min.js') }}"></script>
-    <script language="JavaScript" type="text/javascript" src="{{ url_for('static', filename='js/ui/jquery-ui-1.11.0.custom/jquery-ui.js') }}"></script>
-    <script language="JavaScript" type="text/javascript" src="{{ url_for('static', filename='js/ui/jquery-ui-1.11.0.custom/jquery-ui.min.js') }}"></script>
+    <script language="JavaScript" type="text/javascript" src="{% static 'jquery.min.js' %}"></script>
+    <script language="JavaScript" type="text/javascript" src="{% static 'js/ui/jquery-ui-1.11.0.custom/jquery-ui.js' %}"></script>
+    <script language="JavaScript" type="text/javascript" src="{% static 'js/ui/jquery-ui-1.11.0.custom/jquery-ui.min.js' %}"></script>
     <!-- Core Scripts - Include with every page -->
-    <script language="JavaScript" type="text/javascript" src="{{ url_for('static', filename='custom.js') }}"></script>
-    <script language="JavaScript" type="text/javascript" src="{{ url_for('static', filename ='js/bootstrap.min.js') }}"></script>
-    <script language="JavaScript" type="text/javascript" src="{{ url_for('static', filename ='js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
+    <script language="JavaScript" type="text/javascript" src="{% static 'custom.js' %}"></script>
+    <script language="JavaScript" type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script language="JavaScript" type="text/javascript" src="{% static 'js/plugins/metisMenu/jquery.metisMenu.js' %}"></script>
 
     <!-- Page-Level Plugin Scripts - Dashboard -->
-    <script language="JavaScript" type="text/javascript"  src="{{ url_for('static', filename ='js/plugins/morris/raphael-2.1.0.min.js') }}"></script>
-    <script language="JavaScript" type="text/javascript" src="{{ url_for('static', filename ='js/plugins/morris/morris.js') }}"></script>
+    <script language="JavaScript" type="text/javascript"  src="{% static 'js/plugins/morris/raphael-2.1.0.min.js' %}"></script>
+    <script language="JavaScript" type="text/javascript" src="{% static 'js/plugins/morris/morris.js' %}"></script>
 
     <!-- SB Admin Scripts - Include with every page -->
-    <script language="JavaScript" type="text/javascript" src="{{ url_for('static', filename ='js/sb-admin.js') }}"></script>
+    <script language="JavaScript" type="text/javascript" src="{% static 'js/sb-admin.js' %}"></script>
 
     <!-- Page-Level Demo Scripts - Dashboard - Use for reference -->
-    <script language="JavaScript" type="text/javascript"  src="{{ url_for('static', filename ='js/demo/dashboard-demo.js') }}"></script>
-    <script language="JavaScript" type="text/javascript"  src="{{ url_for('static', filename ='noty-2.2.4/js/noty/packaged/jquery.noty.packaged.min.js') }}"></script>
+    <script language="JavaScript" type="text/javascript"  src="{% static 'js/demo/dashboard-demo.js' %}"></script>
+    <script language="JavaScript" type="text/javascript"  src="{% static 'noty-2.2.4/js/noty/packaged/jquery.noty.packaged.min.js' %}"></script>
 </body>
 
 </html>

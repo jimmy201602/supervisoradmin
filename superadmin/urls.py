@@ -15,7 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from superadmin.views import getlogtail,showMain,showNode
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^activitylog/', getlogtail.as_view(),name='activitylog'),    
+    url(r'^$', showMain.as_view(),name='index'),    
+    url(r'^node/(?P<node_name>\w+)/list/$', showNode.as_view(),name='node'), 
+    
 ]
