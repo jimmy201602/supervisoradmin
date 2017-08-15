@@ -15,12 +15,17 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from superadmin.views import getlogtail,showMain,showNode
+from superadmin.views import getlogtail,showMain,showNode,getlist,showGroup,json_restart,json_start,json_stop,readlog
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^activitylog/', getlogtail.as_view(),name='activitylog'),    
     url(r'^$', showMain.as_view(),name='index'),    
-    url(r'^node/(?P<node_name>\w+)/list/$', showNode.as_view(),name='node'), 
-    
+    url(r'^node/(?P<node_name>\w+)/$', showNode.as_view(),name='show_node'), 
+    url(r'^node/name/list/$',getlist.as_view(),name='node_list'),
+    url(r'^group/(?P<group_name>\w+)/environment/(?P<environment_name>\w+)/$',showGroup.as_view(),name='show_group'),
+    url(r'^node/(?P<node_name>\w+)/process/(?P<process_name>\w+)/restart/$',json_restart.as_view(),name='json_restart'),
+    url(r'^node/(?P<node_name>\w+)/process/(?P<process_name>\w+)/start/$',json_start.as_view(),name='json_start'),
+    url(r'^node/(?P<node_name>\w+)/process/(?P<process_name>\w+)/stop/$',json_stop.as_view(),name='json_stop'),
+    url(r'^node/(?P<node_name>\w+)/process/(?P<process_name>\w+)/readlog/$',readlog.as_view(),name='readlog'),
 ]

@@ -7,7 +7,9 @@ from django.shortcuts import render_to_response,HttpResponseRedirect,reverse,red
 ACTIVITY_LOG = Config(CONFIG_FILE).getActivityLog()
 HOST = Config(CONFIG_FILE).getHost()
 from django.contrib.auth.decorators import login_required
-#@app.route('/activitylog')
+from datetime import datetime
+
+#activitylog
 class getlogtail(View):
     def get(self,request):
         n=12
@@ -33,7 +35,7 @@ class getlogtail(View):
 
 
 
-#@app.route('/')
+#index
 class showMain(View):
 # get user type
     def get(self,request):
@@ -146,7 +148,6 @@ class showMain(View):
                                 #usertypecode = request.session['usertype'])
 
 # Show node
-#@app.route('/node/<node_name>')
 class showNode(View):
     def get(self,request,node_name):
         node_config = Config(CONFIG_FILE).getNodeConfig(node_name)
@@ -154,9 +155,9 @@ class showNode(View):
         add_log.write("%s - %s viewed node %s .\n"%( datetime.now().ctime(), request.session['username'], node_name ))
         return JsonResponse( {'process_info' : Node(node_config).process_dict}) 
 
-#@app.route('/group/<group_name>/environment/<environment_name>')
-def showGroup(group_name, environment_name):
-    if session.get('logged_in'):
+#show group
+class showGroup(View):
+    def get(self,request,group_name, environment_name):
         env_memberlist = Config(CONFIG_FILE).getMemberNames(environment_name)
         process_list = []
         for nodename in env_memberlist:
@@ -176,15 +177,13 @@ def showGroup(group_name, environment_name):
                     tmp.append(node.process_dict2[name].state)
                     tmp.append(node.process_dict2[name].statename)
                     process_list.append(tmp)
-        return jsonify(process_list = process_list)
-    else:
-        return redirect(url_for('login'))
+        return JsonResponse({'process_list' : process_list})
 
 
-#@app.route('/node/<node_name>/process/<process_name>/restart')
-def json_restart(node_name, process_name):
-    if session.get('logged_in'):
-        if session['usertype'] == 0 or session['usertype'] == 1:
+#process restart
+class json_restart(View):
+    def get(self,request,node_name, process_name):
+        if request.session['usertype'] == 0 or request.session['usertype'] == 1:
             try:
                 node_config = Config(CONFIG_FILE).getNodeConfig(node_name)
                 node = Node(node_config)
@@ -202,16 +201,11 @@ def json_restart(node_name, process_name):
             add_log.write("%s - %s is unauthorized user request for restart. Restart event fail for %s node's %s process .\n"%( datetime.now().ctime(), session['username'], node_name, process_name ))
             return jsonify(status = "error2",
                            message = "You are not authorized this action" )
-    else:
-        add_log = open(ACTIVITY_LOG, "a")
-        add_log.write("%s - Illegal request for restart to %s node's %s process %s .\n"%( datetime.now().ctime(), node_name, process_name ))
-        return redirect(url_for('login'))
 
 # Process start
-#@app.route('/node/<node_name>/process/<process_name>/start')
-def json_start(node_name, process_name):
-    if session.get('logged_in'):
-        if session['usertype'] == 0 or session['usertype'] == 1:
+class json_start(View):
+    def get(self,request,node_name, process_name):
+        if request.session['usertype'] == 0 or request.session['usertype'] == 1:
             try:
                 node_config = Config(CONFIG_FILE).getNodeConfig(node_name)
                 node = Node(node_config)
@@ -226,18 +220,14 @@ def json_start(node_name, process_name):
         else:   
             add_log = open(ACTIVITY_LOG, "a")
             add_log.write("%s - %s is unauthorized user request for start. Start event fail for %s node's %s process .\n"%( datetime.now().ctime(), session['username'], node_name, process_name ))
-            return jsonify(status = "error2",
-                           message = "You are not authorized this action" )
-    else:
-        add_log = open(ACTIVITY_LOG, "a")
-        add_log.write("%s - Illegal request for start to %s node's %s process %s .\n"%( datetime.now().ctime(), node_name, process_name ))
-        return redirect(url_for('login'))
+            return JsonResponse({'status' : "error2",
+                           'message' : "You are not authorized this action"} )
+
 
 # Process stop
-#@app.route('/node/<node_name>/process/<process_name>/stop')
-def json_stop(node_name, process_name):
-    if session.get('logged_in'):
-        if session['usertype'] == 0 or session['usertype'] == 1:
+class json_stop(View):
+    def get(self,request,node_name, process_name):
+        if request.session['usertype'] == 0 or request.session['usertype'] == 1:
             try:
                 node_config = Config(CONFIG_FILE).getNodeConfig(node_name)
                 node = Node(node_config)
@@ -252,38 +242,26 @@ def json_stop(node_name, process_name):
         else:
             add_log = open(ACTIVITY_LOG, "a")
             add_log.write("%s - %s is unauthorized user request for stop. Stop event fail for %s node's %s process .\n"%( datetime.now().ctime(), session['username'], node_name, process_name ))
-            return jsonify(status = "error2",
-                           message = "You are not authorized this action" )
-    else:
-        add_log = open(ACTIVITY_LOG, "a")
-        add_log.write("%s - Illegal request for stop to %s node's %s process %s .\n"%( datetime.now().ctime(), node_name, process_name ))
-        return redirect(url_for('login'))
+            return JsonResponse({'status' : "error2",
+                           'message' : "You are not authorized this action"} )
 
 # Node name list in the configuration file
-#@app.route('/node/name/list')
-def getlist():
-    if session.get('logged_in'):
+class getlist(View):
+    def get(self,request):
         node_name_list = Config(CONFIG_FILE).node_list
-        return jsonify( node_name_list = node_name_list )
-    else:
-        return redirect(url_for('login'))
+        return JsonResponse( {'node_name_list' : node_name_list} )
 
 # Show log for process
-#@app.route('/node/<node_name>/process/<process_name>/readlog')
-def readlog(node_name, process_name):
-    if session.get('logged_in'):
-        if session['usertype'] == 0 or session['usertype'] == 1 or session['usertype'] == 2:
+class readlog(View):
+    def get(self,request,node_name, process_name):
+        if request.session['usertype'] == 0 or request.session['usertype'] == 1 or request.session['usertype'] == 2:
             node_config = Config(CONFIG_FILE).getNodeConfig(node_name)
             node = Node(node_config)
             log = node.connection.supervisor.tailProcessStdoutLog(process_name, 0, 500)[0]
             add_log = open(ACTIVITY_LOG, "a")
             add_log.write("%s - %s read log %s node's %s process .\n"%( datetime.now().ctime(), session['username'], node_name, process_name ))
-            return jsonify( status = "success", url="node/"+node_name+"/process/"+process_name+"/read" , log=log)
+            return JsonResponse( {'status' : "success", 'url' : "node/"+node_name+"/process/"+process_name+"/read" , 'log' : log})
         else:
             add_log = open(ACTIVITY_LOG, "a")
             add_log.write("%s - %s is unauthorized user request for read log. Read log event fail for %s node's %s process .\n"%( datetime.now().ctime(), session['username'], node_name, process_name ))
-            return jsonify( status = "error", message= "You are not authorized for this action")
-    else:
-        add_log = open(ACTIVITY_LOG, "a")
-        add_log.write("%s - Illegal request for read log to %s node's %s process %s .\n"%( datetime.now().ctime(), node_name, process_name ))
-        return jsonify( status = "error", message= "First login please")
+            return JsonResponse( {'status' : "error", 'message' : "You are not authorized for this action"})
