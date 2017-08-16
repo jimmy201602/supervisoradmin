@@ -8,9 +8,10 @@ ACTIVITY_LOG = Config(CONFIG_FILE).getActivityLog()
 HOST = Config(CONFIG_FILE).getHost()
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
-
+from django.contrib.auth.mixins import LoginRequiredMixin
+from superadmin.models import EnvironmentGroups,Groups
 #activitylog
-class getlogtail(View):
+class getlogtail(LoginRequiredMixin,View):
     def get(self,request):
         n=12
         try:
@@ -36,7 +37,7 @@ class getlogtail(View):
 
 
 #index
-class showMain(View):
+class showMain(LoginRequiredMixin,View):
 # get user type
     def get(self,request):
         request.session['usertype'] = 0
@@ -63,9 +64,11 @@ class showMain(View):
 
         node_name_list = Config(CONFIG_FILE).node_list
         node_count = len(node_name_list)
-        environment_name_list = Config(CONFIG_FILE).environment_list
+        #environment_name_list = Config(CONFIG_FILE).environment_list
+        environment_name_list = [i.name for i in EnvironmentGroups.objects.all()]
         
-
+        environment_name_list_object = EnvironmentGroups.objects.all()
+        
         for nodename in node_name_list:
             nodeconfig = Config(CONFIG_FILE).getNodeConfig(nodename)
 
@@ -100,7 +103,6 @@ class showMain(View):
                     env_members.pop(index);
             environment_list.append(env_members)        
                     
-        
         for g_name in group_list:
             tmp= []
             for nodename in connected_node_list:
@@ -148,7 +150,7 @@ class showMain(View):
                                 #usertypecode = request.session['usertype'])
 
 # Show node
-class showNode(View):
+class showNode(LoginRequiredMixin,View):
     def get(self,request,node_name):
         node_config = Config(CONFIG_FILE).getNodeConfig(node_name)
         add_log = open(ACTIVITY_LOG, "a")
@@ -156,7 +158,7 @@ class showNode(View):
         return JsonResponse( {'process_info' : Node(node_config).process_dict}) 
 
 #show group
-class showGroup(View):
+class showGroup(LoginRequiredMixin,View):
     def get(self,request,group_name, environment_name):
         env_memberlist = Config(CONFIG_FILE).getMemberNames(environment_name)
         process_list = []
@@ -181,7 +183,7 @@ class showGroup(View):
 
 
 #process restart
-class json_restart(View):
+class json_restart(LoginRequiredMixin,View):
     def get(self,request,node_name, process_name):
         if request.session['usertype'] == 0 or request.session['usertype'] == 1:
             try:
@@ -203,7 +205,7 @@ class json_restart(View):
                            message = "You are not authorized this action" )
 
 # Process start
-class json_start(View):
+class json_start(LoginRequiredMixin,View):
     def get(self,request,node_name, process_name):
         if request.session['usertype'] == 0 or request.session['usertype'] == 1:
             try:
@@ -225,7 +227,7 @@ class json_start(View):
 
 
 # Process stop
-class json_stop(View):
+class json_stop(LoginRequiredMixin,View):
     def get(self,request,node_name, process_name):
         if request.session['usertype'] == 0 or request.session['usertype'] == 1:
             try:
@@ -246,13 +248,13 @@ class json_stop(View):
                            'message' : "You are not authorized this action"} )
 
 # Node name list in the configuration file
-class getlist(View):
+class getlist(LoginRequiredMixin,View):
     def get(self,request):
         node_name_list = Config(CONFIG_FILE).node_list
         return JsonResponse( {'node_name_list' : node_name_list} )
 
 # Show log for process
-class readlog(View):
+class readlog(LoginRequiredMixin,View):
     def get(self,request,node_name, process_name):
         if request.session['usertype'] == 0 or request.session['usertype'] == 1 or request.session['usertype'] == 2:
             node_config = Config(CONFIG_FILE).getNodeConfig(node_name)

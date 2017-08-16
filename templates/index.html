@@ -99,14 +99,14 @@
                             <a><i class="glyphicon glyphicon-th-large"></i> Environments<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <!--Environment names-->
-                            {% for memberlist in environment_name_list %}
+                            {% for memberlist in environment_name_list_object %}
                                 <li>
-                                   <a><i class="glyphicon glyphicon-tag"></i> {{ memberlist }}<span class="fa arrow"></span></a>
+                                   <a><i class="glyphicon glyphicon-tag"></i> {{ memberlist.name }}<span class="fa arrow"></span></a>
                                    <ul class="nav nav-third-level">
                                     <!--Environment's node names-->
-                                    {% for member in memberlist %}
-                                        <li class="ajax2" value="member {{member}}" usertype="{{usertypecode}}">
-                                            <a><input type="checkbox" value="{{ member }}" disabled="true"> {{ member }}</a>
+                                    {% for member in memberlist.members.all %}
+                                        <li class="ajax2" value="member {{member.name}}" usertype="{{usertypecode}}">
+                                            <a><input type="checkbox" value="{{ member.name }}" disabled="true"> {{ member.name }}</a>
                                         </li>
                                     {% endfor %}
                                    </ul>

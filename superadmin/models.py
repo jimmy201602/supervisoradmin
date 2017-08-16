@@ -2,9 +2,10 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 class NodeEnv(models.Model):
     name = models.CharField(_('Name'),max_length=50,help_text=_('Node name'))
+    host = models.GenericIPAddressField(_('Host IP'), protocol='ipv4')
+    port = models.PositiveIntegerField(_('Port'),help_text=_('Supervisor remote manage port'))    
     username = models.CharField(_('Username'),max_length=50,help_text=_('Supervisor login user name'))
     password = models.CharField(_('Password'),max_length=50,help_text=_('Supervior login password'))
-    port = models.PositiveIntegerField(_('Port'),help_text=_('Supervisor remote manage port'))
 
     def __unicode__(self):
         return self.name
