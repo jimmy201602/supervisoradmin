@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from superadmin.views import getlogtail,showMain,showNode,getlist,showGroup,json_restart,json_start,json_stop,readlog
+from django.contrib.auth.views import LoginView,LogoutView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -28,4 +29,6 @@ urlpatterns = [
     url(r'^node/(?P<node_name>\w+)/process/(?P<process_name>\w+)/start/$',json_start.as_view(),name='json_start'),
     url(r'^node/(?P<node_name>\w+)/process/(?P<process_name>\w+)/stop/$',json_stop.as_view(),name='json_stop'),
     url(r'^node/(?P<node_name>\w+)/process/(?P<process_name>\w+:\w+)/readlog/$',readlog.as_view(),name='readlog'),
+    url(r'^accounts/login/$', LoginView.as_view(template_name='admin/login.html'),),
+    url(r'^accounts/logout/$',LogoutView.as_view(template_name='registration/logged_out.html'),),     
 ]

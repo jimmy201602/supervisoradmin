@@ -121,9 +121,9 @@
                         <li>
                             <a href="#" class="groups"><i class="glyphicon glyphicon-th"></i> Groups <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                            {#% for index in range(group_list|length) %#}
+                            {% for index in group_list %}
                                 <li>
-                                    <a><i class="glyphicon glyphicon-paperclip"></i> {#{ group_list[index] }#} <span class="fa arrow"> </a>
+                                    <a><i class="glyphicon glyphicon-paperclip"></i> {{ index }} <span class="fa arrow"> </a>
                                         <ul class="nav nav-third-level">
                                         {#% for env_name in g_environment_list[index] %#}
                                             <li class="ajax3" usertype="{{usertypecode}}">
@@ -132,7 +132,7 @@
                                         {#% endfor %#}
                                         </ul>
                                 </li>
-                            {#% endfor %#}
+                            {% endfor %}
                             </ul>
                         </li>
                     </ul>
