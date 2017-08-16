@@ -27,5 +27,5 @@ urlpatterns = [
     url(r'^node/(?P<node_name>\w+)/process/(?P<process_name>\w+)/restart/$',json_restart.as_view(),name='json_restart'),
     url(r'^node/(?P<node_name>\w+)/process/(?P<process_name>\w+)/start/$',json_start.as_view(),name='json_start'),
     url(r'^node/(?P<node_name>\w+)/process/(?P<process_name>\w+)/stop/$',json_stop.as_view(),name='json_stop'),
-    url(r'^node/(?P<node_name>\w+)/process/(?P<process_name>\w+)/readlog/$',readlog.as_view(),name='readlog'),
+    url(r'^node/(?P<node_name>\w+)/process/(?P<process_name>\w+:\w+)/readlog/$',readlog.as_view(),name='readlog'),
 ]

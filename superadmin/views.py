@@ -259,9 +259,9 @@ class readlog(View):
             node = Node(node_config)
             log = node.connection.supervisor.tailProcessStdoutLog(process_name, 0, 500)[0]
             add_log = open(ACTIVITY_LOG, "a")
-            add_log.write("%s - %s read log %s node's %s process .\n"%( datetime.now().ctime(), session['username'], node_name, process_name ))
+            add_log.write("%s - %s read log %s node's %s process .\n"%( datetime.now().ctime(), request.session['username'], node_name, process_name ))
             return JsonResponse( {'status' : "success", 'url' : "node/"+node_name+"/process/"+process_name+"/read" , 'log' : log})
         else:
             add_log = open(ACTIVITY_LOG, "a")
-            add_log.write("%s - %s is unauthorized user request for read log. Read log event fail for %s node's %s process .\n"%( datetime.now().ctime(), session['username'], node_name, process_name ))
+            add_log.write("%s - %s is unauthorized user request for read log. Read log event fail for %s node's %s process .\n"%( datetime.now().ctime(), request.session['username'], node_name, process_name ))
             return JsonResponse( {'status' : "error", 'message' : "You are not authorized for this action"})
