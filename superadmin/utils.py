@@ -2,8 +2,8 @@ import xmlrpclib
 import ConfigParser
 from datetime import datetime, timedelta
 from django.http import JsonResponse
+from superadmin.settings import activity_log,CONFIG_FILE
 
-CONFIG_FILE = "cesi.conf"
 class Config:
     
     def __init__(self, CFILE):
@@ -42,14 +42,8 @@ class Config:
         self.member_list = self.member_list.split(', ')
         return self.member_list
 
-    def getDatabase(self):
-        return str(self.cfg.get('cesi', 'database'))
-
     def getActivityLog(self):
-        return str(self.cfg.get('cesi', 'activity_log'))
-
-    def getHost(self):
-        return str(self.cfg.get('cesi', 'host'))
+        return str(activity_log)
 
 class NodeConfig:
 

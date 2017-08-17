@@ -49,14 +49,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="#"><i class="fa fa-user fa-fw"></i> {{username}}({{usertype}}) </a></li>
-                        <li><a name="{{username}}" href="#" class="changepassword"><i class="glyphicon glyphicon-wrench"></i> Change Password </a></li>
-                        {% if usertypecode == 0 %}
-                        <li class="divider"></li>
-                        <li><a href="#" class="adduser"><i class="glyphicon glyphicon-plus"></i> Add User </a></li>
-                        <li><a class="deluser"><i class="glyphicon glyphicon-trash"></i> Delete User </a></li>
-                        {% endif %}
-                        <li class="divider"></li>
-                        <li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+                        <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
                     </ul>
                     <!-- /.dropdown-user -->
                 </li>
@@ -214,13 +207,13 @@
 
     <!-- Page-Level Plugin Scripts - Dashboard -->
     <script language="JavaScript" type="text/javascript"  src="{% static 'js/plugins/morris/raphael-2.1.0.min.js' %}"></script>
-    <script language="JavaScript" type="text/javascript" src="{% static 'js/plugins/morris/morris.js' %}"></script>
+    <!--<script language="JavaScript" type="text/javascript" src="{% static 'js/plugins/morris/morris.js' %}"></script>-->
 
     <!-- SB Admin Scripts - Include with every page -->
     <script language="JavaScript" type="text/javascript" src="{% static 'js/sb-admin.js' %}"></script>
 
     <!-- Page-Level Demo Scripts - Dashboard - Use for reference -->
-    <script language="JavaScript" type="text/javascript"  src="{% static 'js/demo/dashboard-demo.js' %}"></script>
+    <!--<script language="JavaScript" type="text/javascript"  src="{% static 'js/demo/dashboard-demo.js' %}"></script>-->
     <script language="JavaScript" type="text/javascript"  src="{% static 'noty-2.2.4/js/noty/packaged/jquery.noty.packaged.min.js' %}"></script>
 </body>
 

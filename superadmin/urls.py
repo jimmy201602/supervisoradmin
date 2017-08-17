@@ -29,6 +29,6 @@ urlpatterns = [
     url(r'^node/(?P<node_name>\w+)/process/(?P<process_name>\w+:\w+)/start/$',json_start.as_view(),name='json_start'),
     url(r'^node/(?P<node_name>\w+)/process/(?P<process_name>\w+:\w+)/stop/$',json_stop.as_view(),name='json_stop'),
     url(r'^node/(?P<node_name>\w+)/process/(?P<process_name>\w+:\w+)/readlog/$',readlog.as_view(),name='readlog'),
-    url(r'^accounts/login/$', LoginView.as_view(template_name='admin/login.html'),),
-    url(r'^accounts/logout/$',LogoutView.as_view(template_name='registration/logged_out.html'),),     
+    url(r'^accounts/login/$', LoginView.as_view(template_name='admin/login.html'),name='login'),
+    url(r'^accounts/logout/$',LogoutView.as_view(template_name='registration/logged_out.html'),name='logout'),     
 ]
