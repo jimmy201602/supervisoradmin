@@ -1,6 +1,7 @@
 # supervisoradmin
 Supervisor admin is a centralized management tools written by django.
-This project is forked from [cesi](https://github.com/gamegos/cesi.git) .
+This project was forked from [cesi](https://github.com/gamegos/cesi.git) .
+The original project was written by flask, This project is a django version. 
 # screenshots
 
 ![](./screenshots/screenshot1.jpg) 
