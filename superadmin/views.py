@@ -9,6 +9,7 @@ HOST = Config(CONFIG_FILE).getHost()
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
+import xmlrpclib
 
 #activitylog
 class getlogtail(LoginRequiredMixin,View):
@@ -173,15 +174,15 @@ class json_restart(LoginRequiredMixin,View):
                 if node.connection.supervisor.stopProcess(process_name):
                     if node.connection.supervisor.startProcess(process_name):
                         add_log = open(ACTIVITY_LOG, "a")
-                        add_log.write("%s - %s restarted %s node's %s process .\n"%( datetime.now().ctime(), session['username'], node_name, process_name ))
+                        add_log.write("%s - %s restarted %s node's %s process .\n"%( datetime.now().ctime(), request.session['username'], node_name, process_name ))
                         return JsonValue(process_name, node_name, "restart").success()
             except xmlrpclib.Fault as err:
                 add_log = open(ACTIVITY_LOG, "a")
-                add_log.write("%s - %s unsucces restart event %s node's %s process .\n"%( datetime.now().ctime(), session['username'], node_name, process_name ))
+                add_log.write("%s - %s unsucces restart event %s node's %s process .\n"%( datetime.now().ctime(), request.session['username'], node_name, process_name ))
                 return JsonValue(process_name, node_name, "restart").error(err.faultCode, err.faultString)
         else:
             add_log = open(ACTIVITY_LOG, "a")
-            add_log.write("%s - %s is unauthorized user request for restart. Restart event fail for %s node's %s process .\n"%( datetime.now().ctime(), session['username'], node_name, process_name ))
+            add_log.write("%s - %s is unauthorized user request for restart. Restart event fail for %s node's %s process .\n"%( datetime.now().ctime(), request.session['username'], node_name, process_name ))
             return jsonify(status = "error2",
                            message = "You are not authorized this action" )
 
@@ -194,15 +195,15 @@ class json_start(LoginRequiredMixin,View):
                 node = Node(node_config)
                 if node.connection.supervisor.startProcess(process_name):
                     add_log = open(ACTIVITY_LOG, "a")
-                    add_log.write("%s - %s started %s node's %s process .\n"%( datetime.now().ctime(), session['username'], node_name, process_name ))
+                    add_log.write("%s - %s started %s node's %s process .\n"%( datetime.now().ctime(), request.session['username'], node_name, process_name ))
                     return JsonValue(process_name, node_name, "start").success()
             except xmlrpclib.Fault as err:
                 add_log = open(ACTIVITY_LOG, "a")
-                add_log.write("%s - %s unsucces start event %s node's %s process .\n"%( datetime.now().ctime(), session['username'], node_name, process_name ))
+                add_log.write("%s - %s unsucces start event %s node's %s process .\n"%( datetime.now().ctime(), request.session['username'], node_name, process_name ))
                 return JsonValue(process_name, node_name, "start").error(err.faultCode, err.faultString)
         else:   
             add_log = open(ACTIVITY_LOG, "a")
-            add_log.write("%s - %s is unauthorized user request for start. Start event fail for %s node's %s process .\n"%( datetime.now().ctime(), session['username'], node_name, process_name ))
+            add_log.write("%s - %s is unauthorized user request for start. Start event fail for %s node's %s process .\n"%( datetime.now().ctime(), request.session['username'], node_name, process_name ))
             return JsonResponse({'status' : "error2",
                            'message' : "You are not authorized this action"} )
 
@@ -216,15 +217,15 @@ class json_stop(LoginRequiredMixin,View):
                 node = Node(node_config)
                 if node.connection.supervisor.stopProcess(process_name):
                     add_log = open(ACTIVITY_LOG, "a")
-                    add_log.write("%s - %s stopped %s node's %s process .\n"%( datetime.now().ctime(), session['username'], node_name, process_name ))
+                    add_log.write("%s - %s stopped %s node's %s process .\n"%( datetime.now().ctime(), request.session['username'], node_name, process_name ))
                     return JsonValue(process_name, node_name, "stop").success()
             except xmlrpclib.Fault as err:
                 add_log = open(ACTIVITY_LOG, "a")
-                add_log.write("%s - %s unsucces stop event %s node's %s process .\n"%( datetime.now().ctime(), session['username'], node_name, process_name ))
+                add_log.write("%s - %s unsucces stop event %s node's %s process .\n"%( datetime.now().ctime(), request.session['username'], node_name, process_name ))
                 return JsonValue(process_name, node_name, "stop").error(err.faultCode, err.faultString)
         else:
             add_log = open(ACTIVITY_LOG, "a")
-            add_log.write("%s - %s is unauthorized user request for stop. Stop event fail for %s node's %s process .\n"%( datetime.now().ctime(), session['username'], node_name, process_name ))
+            add_log.write("%s - %s is unauthorized user request for stop. Stop event fail for %s node's %s process .\n"%( datetime.now().ctime(), request.session['username'], node_name, process_name ))
             return JsonResponse({'status' : "error2",
                            'message' : "You are not authorized this action"} )
 

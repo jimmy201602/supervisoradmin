@@ -120,19 +120,19 @@ class JsonValue:
         self.node = Node(self.node_config)
 
     def success(self):
-        return JsonResponse(status = "Success",
-                       code = 80,
-                       message = "%s %s %s event succesfully" %(self.node_name, self.process_name, self.event),
-                       nodename = self.node_name,
-                       data = self.node.connection.supervisor.getProcessInfo(self.process_name))
+        return JsonResponse({'status' : "Success",
+                       'code' : 80,
+                       'message' : "%s %s %s event succesfully" %(self.node_name, self.process_name, self.event),
+                       'nodename' : self.node_name,
+                       'data' : self.node.connection.supervisor.getProcessInfo(self.process_name)})
 
     def error(self, code, payload):     
         self.code = code
         self.payload = payload
-        return JsonResponse(status = "Error",
-                       code = self.code,
-                       message = "%s %s %s event unsuccesful" %(self.node_name, self.process_name, self.event),
-                       nodename = self.node_name,
-                       payload = self.payload)
+        return JsonResponse({'status' : "Error",
+                       'code' : self.code,
+                       'message' : "%s %s %s event unsuccesful" %(self.node_name, self.process_name, self.event),
+                       'nodename' : self.node_name,
+                       'payload' : self.payload})
  
 
