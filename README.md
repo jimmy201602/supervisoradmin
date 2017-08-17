@@ -1,5 +1,6 @@
 # supervisoradmin
 Supervisor admin is a centralized management tools written by django.
+This project is forked from [cesi](https://github.com/gamegos/cesi.git) .
 # screenshots
 
 ![](./screenshots/screenshot1.jpg) 
@@ -38,3 +39,7 @@ python manage.py runserver
 ```sh
 zhengge2012@gmail.com
 ```
+
+# Usage
+
+[cesi blog](http://www.gulsahkose.com/2014/09/cesi-centralized-supervisor-interface.html) 
