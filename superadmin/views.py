@@ -9,7 +9,7 @@ HOST = Config(CONFIG_FILE).getHost()
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
-from superadmin.models import EnvironmentGroups,Groups
+
 #activitylog
 class getlogtail(LoginRequiredMixin,View):
     def get(self,request):
@@ -64,11 +64,8 @@ class showMain(LoginRequiredMixin,View):
 
         node_name_list = Config(CONFIG_FILE).node_list
         node_count = len(node_name_list)
-        #environment_name_list = Config(CONFIG_FILE).environment_list
-        environment_name_list = [i.name for i in EnvironmentGroups.objects.all()]
-        
-        environment_name_list_object = EnvironmentGroups.objects.all()
-        
+        environment_name_list = Config(CONFIG_FILE).environment_list
+                
         for nodename in node_name_list:
             nodeconfig = Config(CONFIG_FILE).getNodeConfig(nodename)
 
@@ -102,7 +99,7 @@ class showMain(LoginRequiredMixin,View):
                 if not node in connected_node_list:
                     env_members.pop(index);
             environment_list.append(env_members)        
-                    
+        
         for g_name in group_list:
             tmp= []
             for nodename in connected_node_list:
@@ -114,7 +111,7 @@ class showMain(LoginRequiredMixin,View):
                         if not nodename in tmp:
                             tmp.append(nodename)
             g_node_list.append(tmp)
-
+        
         for sublist in g_node_list:
             tmp = []
             for name in sublist:
@@ -128,27 +125,11 @@ class showMain(LoginRequiredMixin,View):
         connected_count = len(connected_node_list)
         not_connected_count = len(not_connected_node_list)
 
-        request.session['username'] = 'jimmy'
+        request.session['username'] = request.user.username
         username = request.session['username']
         usertypecode = request.session['usertype']
         return render_to_response('index.html',locals())
-                                #all_process_count =all_process_count,
-                                #running_process_count =running_process_count,
-                                #stopped_process_count =stopped_process_count,
-                                #node_count =node_count,
-                                #node_name_list = node_name_list,
-                                #connected_count = connected_count,
-                                #not_connected_count = not_connected_count,
-                                #environment_list = environment_list,
-                                #environment_name_list = environment_name_list,
-                                #group_list = group_list,
-                                #g_environment_list = g_environment_list,
-                                #connected_node_list = connected_node_list,
-                                #not_connected_node_list = not_connected_node_list,
-                                #username = request.session['username'],
-                                #usertype = usertype,
-                                #usertypecode = request.session['usertype'])
-
+    
 # Show node
 class showNode(LoginRequiredMixin,View):
     def get(self,request,node_name):

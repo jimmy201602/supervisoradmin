@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+
 class NodeEnv(models.Model):
     name = models.CharField(_('Name'),max_length=50,help_text=_('Node name'))
     host = models.GenericIPAddressField(_('Host IP'), protocol='ipv4')
@@ -16,12 +17,6 @@ class EnvironmentGroups(models.Model):
 
     def __unicode__(self):
         return  self.name
-
-class Groups(models.Model):
-    name = models.CharField(_('Name'),max_length=50,help_text=_('Group name'))
-    members = models.ManyToManyField(EnvironmentGroups,help_text=_('Group members'))
-    def __unicode__(self):
-        return self.name
 
 class Log(models.Model):
     module_name = models.CharField(_('Module name'),max_length=50,help_text=_('Log module name'))
