@@ -127,7 +127,7 @@ class showMain(LoginRequiredMixin,View):
         request.session['username'] = request.user.username
         username = request.session['username']
         usertypecode = request.session['usertype']
-        return render_to_response('index.html',locals())
+        return render_to_response('base.html',locals())
     
 # Show node
 class showNode(LoginRequiredMixin,View):
