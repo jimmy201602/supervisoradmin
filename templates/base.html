@@ -10,7 +10,7 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
-  <link rel="stylesheet" href="{% static "plugins/bootstrap/bootstrap.min.css" %}">
+  <link rel="stylesheet" href="{% static "plugins/bootstrap/css/bootstrap.min.css" %}">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{% static "plugins/font-awesome/css/font-awesome.css" %}">
   <!-- Ionicons -->
@@ -208,21 +208,19 @@
           <ul class="treeview-menu">          	
           	<li class="active"><a href="/" class="dashboard"><i class="glyphicon glyphicon-dashboard"></i> Dashboard</a></li>
           </ul>
-	  <ul class="treeview-menu">
-		<li class="active"><a href="#" class="showall" usertype="{{usertypecode}}"><i class="glyphicon glyphicon-list"></i> Show All</a></li>
-	  </ul>
+	  </li>
 	  
+	  <li><a href="#" class="showall" usertype="{{usertypecode}}"><i class="glyphicon glyphicon-list"></i> <span>Show All</span></a></li>
 	  
-	  <ul class="treeview-menu">
-	    <li>
-	      <a href="#"><i class="glyphicon glyphicon-th-list"></i> Nodes<span class="fa arrow"></span>
+	  <li class="treeview">
+
+	      <a href="#"><i class="glyphicon glyphicon-th-list"></i> <span class="fa arrow">Nodes</span>
 		  <i class="fa fa-angle-left pull-right"></i>
-		</span>
 	      </a>
 	      <ul class="treeview-menu">
 		  {% for node_name in connected_node_list %}
 		      <li class="ajax2" value="{{node_name}}" usertype="{{usertypecode}}">
-			  <a> <input type="checkbox" class="ajax" value="{{ node_name  }}" disabled="true"> {{ node_name  }} </a>
+			  <a> <input type="checkbox" class="ajax" value="{{ node_name  }}" disabled="true"> {{ node_name  }}</a>
 		      </li>
 		  {% endfor %}
 		  {% for node_name in not_connected_node_list %}
@@ -231,15 +229,13 @@
 		      </li>
 		  {% endfor %}
 	      </ul>
-	    </li>
-	  </ul>
+	  </li>
 	  
 	  
-	  <ul class="treeview-menu">
-	    <li>
-	      <a href="#"><i class="glyphicon glyphicon-th-large"></i> Environments<span class="fa arrow"></span>
+	  <li class="treeview">
+
+	      <a href="#"><i class="glyphicon glyphicon-th-large"></i><span class="fa arrow">Environments</span>
 		  <i class="fa fa-angle-left pull-right"></i>
-		</span>
 	      </a>
 	      <ul class="treeview-menu">
 		  {% for memberlist in environment_list %}
@@ -256,13 +252,12 @@
 		      </li>
 		  {% endfor %}
 	      </ul>
-	    </li>
-	  </ul>
+
+	  </li>
 	  
 	  
-	  <ul class="treeview-menu">
-	    <li>
-	      <a href="#"><i class="glyphicon glyphicon-th"></i> Groups <span class="fa arrow"></span></a>
+	  <li class="treeview">
+	      <a href="#"><i class="glyphicon glyphicon-th"></i>  <span class="fa arrow">Groups</span></a>
 	      <ul class="treeview-menu">
 		    {% for index in group_list %}
 			<li>
@@ -277,11 +272,9 @@
 			</li>
 		    {% endfor %}
 	      </ul>
-	    </li>
-	  </ul>
+	  </li>
 	  
-	  
-        </li>
+	 
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -376,7 +369,7 @@
   $.widget.bridge('uibutton', $.ui.button);
 </script>
 <!-- Bootstrap 3.3.6 -->
-<script src="{% static "plugins/bootstrap/bootstrap.min.js" %}"></script>
+<script src="{% static "plugins/bootstrap/js/bootstrap.min.js" %}"></script>
 <!-- AdminLTE App -->
 <script src="{% static "js/app.min.js" %}"></script>
 <!-- toastr js-->
