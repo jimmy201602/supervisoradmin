@@ -13,7 +13,7 @@ The original project was written by flask, This project is a django version.
 ```sh
 $git clone https://github.com/jimmy201602/supervisoradmin.git
 
-$cd supervisoradmin
+$cd supervisoradmin-master
 
 $pip install -r  requirements.txt
 
